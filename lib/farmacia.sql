@@ -1,58 +1,34 @@
+
 CREATE DATABASE farmacia;
-
 USE farmacia;
+SHOW DATABASES;
 
-show tables;
-
+-- Tabla de roles
 CREATE TABLE rol (
     id_rol INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE
 );
 
-insert into rol(nombre) values ('Administrador'),('Vendedor');
+INSERT INTO rol(nombre) VALUES ('Administrador'), ('Vendedor');
 
-CREATE TABLE marca (
-    id_marca INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE laboratorio (
-    id_laboratorio INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE forma_farmaceutica (
-    id_forma INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE via_administracion (
-    id_via INT AUTO_INCREMENT PRIMARY KEY,
-    via VARCHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE presentacion (
-    id_presentacion INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE
-);
-
+-- Tabla de usuarios
 CREATE TABLE usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    user VARCHAR(50)  NOT NULL UNIQUE,
+    user VARCHAR(50) NOT NULL UNIQUE,
     correo VARCHAR(100) NOT NULL,
     contrasena VARCHAR(255) NOT NULL,
     activo TINYINT(1) NOT NULL DEFAULT 1,
     id_rol INT NOT NULL,
+    fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
 );
 
-ALTER TABLE usuario ADD COLUMN fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+INSERT INTO usuario(nombre, user, correo, contrasena, activo, id_rol) 
+VALUES ('Diego Zaid', 'Zaid-reb', 'dzgr@gmail.com', '123456', 1, 1),
+       ('Norma Jimenez', 'normajm', 'norma123@gmail.com', '123456', 1, 2);
 
-insert into usuario(nombre, user, correo, contrasena, activo, id_rol) values ('Diego Zaid', 'Zaid-reb', 'dzgr@gmail.com','123456', 1, 1),('Norma Jimenez', 'normajm', 'norma123@gmail.com', '123456', 1, 2);
-
-select * from usuario;
-
+-- Tabla de productos (con campos directos)
 CREATE TABLE producto (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     nombre_comercial VARCHAR(150) NOT NULL UNIQUE,
@@ -60,22 +36,17 @@ CREATE TABLE producto (
     concentracion VARCHAR(50) NOT NULL,
     contenido_total VARCHAR(50) NOT NULL,
     descripcion VARCHAR(100),
+    marca_laboratorio VARCHAR(100) NOT NULL,
+    forma_farmaceutica VARCHAR(100) NOT NULL,
+    via_administracion VARCHAR(100) NOT NULL,
+    presentacion VARCHAR(100) NOT NULL,
     es_patente TINYINT(1) NOT NULL DEFAULT 0,
-    requiere_receta TINYINT(1)   NOT NULL DEFAULT 0,
-    requiere_refrigeracion TINYINT(1)  NOT NULL DEFAULT 0,
-    ubicacion_anaquel VARCHAR(100),
-    id_marca INT NOT NULL,
-    id_laboratorio INT NOT NULL,
-    id_forma INT NOT NULL,
-    id_via INT NOT NULL,
-    id_presentacion INT NOT NULL,
-    FOREIGN KEY (id_marca) REFERENCES marca(id_marca),
-    FOREIGN KEY (id_laboratorio) REFERENCES laboratorio(id_laboratorio),
-    FOREIGN KEY (id_forma) REFERENCES forma_farmaceutica(id_forma),
-    FOREIGN KEY (id_via) REFERENCES via_administracion(id_via),
-    FOREIGN KEY (id_presentacion) REFERENCES presentacion(id_presentacion)
+    requiere_receta TINYINT(1) NOT NULL DEFAULT 0,
+    requiere_refrigeracion TINYINT(1) NOT NULL DEFAULT 0,
+    ubicacion_anaquel VARCHAR(100)
 );
 
+-- Tabla de inventario
 CREATE TABLE inventario (
     id_inventario INT AUTO_INCREMENT PRIMARY KEY,
     id_producto INT NOT NULL,
@@ -88,6 +59,7 @@ CREATE TABLE inventario (
     UNIQUE (id_producto, lote)
 );
 
+-- Tabla de ventas
 CREATE TABLE venta (
     id_venta INT AUTO_INCREMENT PRIMARY KEY,
     fecha_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -102,6 +74,7 @@ CREATE TABLE venta (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
+-- Detalle de ventas
 CREATE TABLE detalle_venta (
     id_detalle INT AUTO_INCREMENT PRIMARY KEY,
     id_venta INT NOT NULL,
@@ -113,4 +86,5 @@ CREATE TABLE detalle_venta (
     FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario)
 );
 
-
+-- Ver todas las tablas creadas
+SHOW TABLES;

@@ -1,6 +1,8 @@
 package farmacia;
 
 import farmacia.db.Conexion;
+import farmacia.menus.MenuAdministrador;
+import farmacia.menus.MenuVendedor;
 import farmacia.models.Usuario;
 import farmacia.services.UsuarioService;
 import java.sql.Connection;
@@ -23,9 +25,9 @@ public class Main {
             return;
         }
 
-        boolean salir = false;
+        boolean programaActivo = true;
 
-        while (!salir) {
+        while (programaActivo) {
             System.out.println("\n----------------------------------------");
             System.out.println("         SISTEMA FARMACIA");
             System.out.println("-----------------------------------------");
@@ -39,7 +41,6 @@ public class Main {
                 int opcion = Integer.parseInt(opcionStr);
 
                 if (opcion == 1) {
-
                     boolean loginExitoso = false;
 
                     while (!loginExitoso) {
@@ -60,7 +61,7 @@ public class Main {
 
                             try {
                                 connLogin = Conexion.getConnection();
-                                
+
                                 UsuarioService usuarioService = new UsuarioService(connLogin);
                                 Usuario usuarioAutenticado = usuarioService.autenticar(usuario, contrasena);
 
@@ -68,17 +69,19 @@ public class Main {
                                     System.out.println("\n¡Bienvenid@ " + usuarioAutenticado.getNombre() + "!");
                                     System.out.println("Rol: " + usuarioAutenticado.getRol());
 
-                                    // Menú según el rol
-                                    if (usuarioAutenticado.getRol().equalsIgnoreCase("admin")) {
-                                        System.out.println("...");
-                                        // TODO: MenuAdministrador.main(args);
-                                    } else if (usuarioAutenticado.getRol().equalsIgnoreCase("vendedor")) {
-                                        System.out.println("...");
-                                        // TODO: MenuVendedor.main(args);
+                                    // Cerrar la conexion del login
+                                    Conexion.cerrarConexion(connLogin);
+
+                                    // Ir al menu segun el rol
+                                    if (usuarioAutenticado.getRol().equalsIgnoreCase("Administrador")) {
+                                        MenuAdministrador.iniciar(usuarioAutenticado);
+                                    } else if (usuarioAutenticado.getRol().equalsIgnoreCase("Vendedor")) {
+                                        MenuVendedor.iniciar(usuarioAutenticado);
                                     } else {
                                         System.out.println("Error: Rol no reconocido");
                                     }
 
+                                    // Al salir del menu, vuelve al menu principal
                                     loginExitoso = true;
 
                                 } else {
@@ -95,7 +98,7 @@ public class Main {
                                 System.out.println("Error en la base de datos: " + e.getMessage());
                                 loginExitoso = true;
                             } finally {
-                                if (connLogin != null) {
+                                if (connLogin != null && !connLogin.isClosed()) {
                                     Conexion.cerrarConexion(connLogin);
                                 }
                             }
@@ -106,8 +109,8 @@ public class Main {
                     }
 
                 } else if (opcion == 0) {
-                    System.out.println("\n¡Adioooooooo =)!");
-                    salir = true;
+                    System.out.println("\n¡Adioooooooooooooooooooos =)!");
+                    programaActivo = false;
                 } else {
                     System.out.println("Opción no válida. Intente con 1 o 0.");
                 }
