@@ -89,5 +89,5 @@ public class InventarioService {
         }
     }
 
-    // CORRECCIÓN 2: Ahora busca el registro completo antes de actualizar para no borrar precio_compra
+
     public String
