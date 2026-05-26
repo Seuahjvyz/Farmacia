@@ -286,7 +286,6 @@ public class MenuAdministrador {
         }
     }
 
-    // ========== CAMBIO IMPORTANTE: REEMPLAZAMOS TODO EL MÉTODO ==========
     private static void menuInventario() {
         // Ahora llamamos a tu clase MenuAdminInventario que ya tiene las 4 opciones
         // que pide la guía: consultar todo, consultar por producto, agregar lote, editar
