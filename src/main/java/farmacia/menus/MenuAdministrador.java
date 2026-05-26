@@ -54,7 +54,7 @@ public class MenuAdministrador {
                         menuProductos();
                         break;
                     case 3:
-                        menuInventario();
+                        menuInventario(); // <-- AQUÍ YA ENTRA TU MÓDULO
                         break;
                     case 4:
                         menuVentas();
@@ -286,56 +286,12 @@ public class MenuAdministrador {
         }
     }
 
+    // ========== CAMBIO IMPORTANTE: REEMPLAZAMOS TODO EL MÉTODO ==========
     private static void menuInventario() {
-        boolean regresar = false;
-
-        while (!regresar) {
-            System.out.println("\n----------------------------------------");
-            System.out.println("         MENU INVENTARIO");
-            System.out.println("-----------------------------------------");
-            System.out.println("1. Agregar lote");
-            System.out.println("2. Editar lote");
-            System.out.println("3. Eliminar lote");
-            System.out.println("4. Consultar inventario");
-            System.out.println("5. Bajo stock");
-            System.out.println("6. Productos por caducar");
-            System.out.println("7. Regresar");
-            System.out.print("Opcion: ");
-
-            String opcionStr = scanner.nextLine();
-
-            try {
-                int opcion = Integer.parseInt(opcionStr);
-
-                switch (opcion) {
-                    case 1:
-                        System.out.println("Funcionalidad en desarrollo");
-                        break;
-                    case 2:
-                        System.out.println("Funcionalidad en desarrollo");
-                        break;
-                    case 3:
-                        System.out.println("Funcionalidad en desarrollo");
-                        break;
-                    case 4:
-                        System.out.println("Funcionalidad en desarrollo");
-                        break;
-                    case 5:
-                        System.out.println("Funcionalidad en desarrollo");
-                        break;
-                    case 6:
-                        System.out.println("Funcionalidad en desarrollo");
-                        break;
-                    case 7:
-                        regresar = true;
-                        break;
-                    default:
-                        System.out.println("Opcion no valida");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Ingrese un numero");
-            }
-        }
+        // Ahora llamamos a tu clase MenuAdminInventario que ya tiene las 4 opciones
+        // que pide la guía: consultar todo, consultar por producto, agregar lote, editar
+        MenuAdminInventario menuInv = new MenuAdminInventario();
+        menuInv.mostrarMenu(scanner);
     }
 
     private static void menuVentas() {
