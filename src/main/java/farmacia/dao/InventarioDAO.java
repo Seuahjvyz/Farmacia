@@ -1,4 +1,4 @@
-package farmacia.dao; // Cambia a farmacia.modelos si así está en el repo
+package farmacia.dao;
 
 import farmacia.models.Inventario; // Cambia a farmacia.modelos.Inventario si usan "modelos"
 import java.sql.*;
