@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS farmacia;
+
+CREATE DATABASE farmacia;
 USE farmacia;
 SHOW DATABASES;
 
@@ -27,7 +28,9 @@ INSERT INTO usuario(nombre, user, correo, contrasena, activo, id_rol)
 VALUES ('Diego Zaid', 'Zaid-reb', 'dzgr@gmail.com', '123456', 1, 1),
        ('Norma Jimenez', 'normajm', 'norma123@gmail.com', '123456', 1, 2);
 
--- Tabla de productos (con campos directos)
+select * from usuario;
+
+-- Tabla de productos
 CREATE TABLE producto (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     nombre_comercial VARCHAR(150) NOT NULL UNIQUE,
@@ -42,8 +45,12 @@ CREATE TABLE producto (
     es_patente TINYINT(1) NOT NULL DEFAULT 0,
     requiere_receta TINYINT(1) NOT NULL DEFAULT 0,
     requiere_refrigeracion TINYINT(1) NOT NULL DEFAULT 0,
-    ubicacion_anaquel VARCHAR(100)
+    ubicacion_anaquel VARCHAR(100),
+    fecha_registro datetime not null default current_timestamp;
 );
+
+ALTER TABLE producto ADD COLUMN activo TINYINT(1) NOT NULL DEFAULT 1;
+
 
 -- Tabla de inventario
 CREATE TABLE inventario (
