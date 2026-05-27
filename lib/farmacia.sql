@@ -1,5 +1,4 @@
-
-CREATE DATABASE farmacia;
+CREATE DATABASE IF NOT EXISTS farmacia;
 USE farmacia;
 SHOW DATABASES;
 
